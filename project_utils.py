@@ -16,28 +16,6 @@ import yaml
 
 from .logging_utils import LOG
 
-class CheckpointSaver:
-	def __init__(self, ex, name=None):
-		self.__min_loss = 'inf'
-		if name is None:
-			self.__filepath = ex.path('best_model.pt')
-		else:
-			self.__filepath = ex.path(f'best_model_{name}.pt')
-
-	def save(self, dictionary, loss):
-		if float(self.__min_loss) >= float(loss):
-			self.__min_loss = loss
-			torch.save(dictionary, self.__filepath)
-
-	def load(self):
-		if os.path.exists(self.__filepath):
-			return torch.load(self.__filepath)
-		return None
-
-	@property
-	def loss(self):
-		return self.__min_loss
-
 
 class GifMaker:
 	"""
